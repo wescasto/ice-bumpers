@@ -217,6 +217,7 @@ function accelerate(car, xStick, yStick, speed) {
 
 function scoreRedGoal() {
     activePuck = false;
+    timer.pause();
     blueGoalCount += 1;
     blueGoalCountText.text = blueGoalCount;
     redText.alpha = 1;
@@ -225,6 +226,7 @@ function scoreRedGoal() {
 
 function scoreBlueGoal() {
     activePuck = false;
+    timer.pause();
     redGoalCount += 1;
     redGoalCountText.text = redGoalCount;
     blueText.alpha = 1;
@@ -236,6 +238,7 @@ function resetPuck() {
     blueText.alpha = 0;
     puck.reset(game.world.centerX, game.world.centerY);
     activePuck = true;
+    timer.resume();
 
     car1.reset(1110, 410);
     car1.body.angle = 270;
