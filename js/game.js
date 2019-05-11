@@ -190,7 +190,10 @@ function create() {
     pad2 = game.input.gamepad.pad2; pad2.deadZone = 0;
     pad3 = game.input.gamepad.pad3; pad3.deadZone = 0;
     pad4 = game.input.gamepad.pad4; pad4.deadZone = 0;
-    
+
+    // Keyboard (for testing only)
+    cursors = game.input.keyboard.createCursorKeys();
+
     // are controllers synced?
     indicator1 = game.add.sprite(1228, 92, 'indicator');
     indicator1.width = 45;
@@ -212,6 +215,33 @@ function accelerate(car, xStick, yStick, speed) {
     car.body.rotation = angle + game.math.degToRad(90);  // correct the angle
     car.body.force.x = Math.cos(angle) * speed; // apply acceleration 
     car.body.force.y = Math.sin(angle) * speed;
+}
+
+function handleKeyboardInput () {
+    car4.frame = 1;
+    if (cursors.left.isDown) { // left
+        car4.body.rotation = game.math.degToRad(-90);
+        car4.body.velocity.x -= 20;
+    } else if (cursors.right.isDown) { // right
+        car4.body.rotation = game.math.degToRad(90);
+        car4.body.velocity.x += 20;
+    } if (cursors.up.isDown) { // up
+        car4.body.rotation = game.math.degToRad(0);
+        car4.body.velocity.y -= 20;
+    } else if (cursors.down.isDown) { // down
+        car4.body.rotation = game.math.degToRad(180);
+        car4.body.velocity.y += 20;
+    }
+
+    if (cursors.left.isDown && cursors.up.isDown) { // left + up
+        car4.body.rotation = game.math.degToRad(-45);
+    } else if (cursors.up.isDown && cursors.right.isDown) { // up + right
+        car4.body.rotation = game.math.degToRad(45);
+    } else if (cursors.right.isDown && cursors.down.isDown) { // right + down
+        car4.body.rotation = game.math.degToRad(135);
+    } else if (cursors.down.isDown && cursors.left.isDown) { // down + left
+        car4.body.rotation = game.math.degToRad(-135);
+    }
 }
 
 function scoreRedGoal() {
@@ -294,6 +324,9 @@ function update() {
             indicator4.animations.frame = 2;
         }
     }
+
+    // enable keyboard for testing (player4)
+    handleKeyboardInput();
     
     // puck and scoring
     if (activePuck === true) {
