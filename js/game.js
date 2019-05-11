@@ -76,7 +76,6 @@ function create() {
     map.body.loadPolygon('mapData', 'map2');
     map.body.kinematic = true; // fix the object
 
-
     // Goal scoring
     var style = { font: "32px Bungee, sans-serif", fill: "#fff"};
     redText = game.add.text(50, 450, "GOAL!!!", style);
@@ -221,7 +220,7 @@ function scoreRedGoal() {
     blueGoalCount += 1;
     blueGoalCountText.text = blueGoalCount;
     redText.alpha = 1;
-    game.time.events.add(Phaser.Timer.SECOND * 1.5, resetPuck, this);
+    game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
 }
 
 function scoreBlueGoal() {
@@ -230,7 +229,7 @@ function scoreBlueGoal() {
     redGoalCount += 1;
     redGoalCountText.text = redGoalCount;
     blueText.alpha = 1;
-    game.time.events.add(Phaser.Timer.SECOND * 1.5, resetPuck, this);
+    game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
 }
 
 function resetPuck() {
@@ -260,6 +259,15 @@ function updateClock() {
     result += (clockSeconds < 10) ? ':0' + clockSeconds : ':' + clockSeconds; //Display seconds, add a 0 to the start if less than 10
     gameClockText.text = result;
     gameClock -= 1;
+
+    if (gameClock == -1) {
+        timer.stop();
+        gameOver();
+    }
+}
+
+function gameOver() {
+    console.log('Game over!');
 }
 
 function update() {
@@ -287,7 +295,6 @@ function update() {
         }
     }
     
-
     // puck and scoring
     if (activePuck === true) {
         if (puck.body.x < 110) {
@@ -303,7 +310,6 @@ function update() {
     car2.body.setZeroRotation();
     car3.body.setZeroRotation();
     car4.body.setZeroRotation();
-
 
     // gamepad controls
     pad1Xstick = pad1.axis(Phaser.Gamepad.AXIS_0);
@@ -367,7 +373,6 @@ function update() {
         car4.body.thrust(initialThrust * 1.2);
     }
 
-
     /*
     justPressed
     justReleased
@@ -378,6 +383,5 @@ function update() {
     2 = square
     3 = triangle
     */
-
 
 } // end update();
