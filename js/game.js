@@ -220,27 +220,27 @@ function accelerate(car, xStick, yStick, speed) {
 function handleKeyboardInput () {
     car4.frame = 1;
     if (cursors.left.isDown) { // left
-        car4.body.rotation = game.math.degToRad(-90);
+        car4.body.angle = -90;
         car4.body.velocity.x -= 20;
     } else if (cursors.right.isDown) { // right
-        car4.body.rotation = game.math.degToRad(90);
+        car4.body.angle = 90;
         car4.body.velocity.x += 20;
     } if (cursors.up.isDown) { // up
-        car4.body.rotation = game.math.degToRad(0);
+        car4.body.angle = 0;
         car4.body.velocity.y -= 20;
     } else if (cursors.down.isDown) { // down
-        car4.body.rotation = game.math.degToRad(180);
+        car4.body.angle = 180;
         car4.body.velocity.y += 20;
     }
 
     if (cursors.left.isDown && cursors.up.isDown) { // left + up
-        car4.body.rotation = game.math.degToRad(-45);
+        car4.body.angle = -45;
     } else if (cursors.up.isDown && cursors.right.isDown) { // up + right
-        car4.body.rotation = game.math.degToRad(45);
+        car4.body.angle = 45;
     } else if (cursors.right.isDown && cursors.down.isDown) { // right + down
-        car4.body.rotation = game.math.degToRad(135);
+        car4.body.angle = 135;
     } else if (cursors.down.isDown && cursors.left.isDown) { // down + left
-        car4.body.rotation = game.math.degToRad(-135);
+        car4.body.angle = -135;
     }
 }
 
