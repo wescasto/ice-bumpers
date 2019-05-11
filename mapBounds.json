@@ -1,0 +1,165 @@
+{ 
+	"map2": [
+		{
+			"density": 2, "friction": 0, "bounce": 0,
+			"shape": [ 1, 1  ,  110, 1  ,  110, 350  ,  1, 350 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 111, 1  ,  322, 1  ,  322, 136  ,  111, 136 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 323, 1  ,  958, 1  ,  958, 30  ,  323 , 30 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 959, 1  ,  1170, 1  ,  1170, 136  ,  959 , 136 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 1171, 1  ,  1280, 1  ,  1280, 350  ,  1171 , 350 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 1270, 351  ,  1280, 351  ,  1280, 558  ,  1270 , 558 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 1171, 559  ,  1280, 559  ,  1280, 908  ,  1171 , 908 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 959, 772  ,  1170, 772  ,  1170, 908  ,  959, 908 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 323, 878  ,  958, 878  ,  958, 908  , 323, 908 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 111, 772  ,  322, 772  ,  322, 908  , 111, 908 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 1, 558  ,  110, 558  ,  110, 908  ,  1, 908 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, 
+			"shape": [ 1, 351  ,  10, 351  ,  10, 559  ,  1, 559 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "blue goal wedge - top", 
+			"shape": [ 11, 351  ,  35, 351  ,  11, 386 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "blue goal wedge - bottom", 
+			"shape": [  11, 559  , 11, 524  ,  35, 559  ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle1a", 
+			"shape": [ 111, 290  ,  111, 137  ,  117, 242 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle1b", 
+			"shape": [ 118, 240  ,  111, 137,  133, 198 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle1c", 
+			"shape": [ 134, 196  ,  111, 137,  166, 163 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle1d", 
+			"shape": [ 167, 162  ,  111, 137,  199, 147 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle1e", 
+			"shape": [ 200, 146  ,  111, 137,  250, 137 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle2a", 
+			"shape": [ 1170, 290  ,  1164, 242  ,  1170, 137 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle2b", 
+			"shape": [ 1163, 240  ,  1148, 198  ,  1170, 137 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle2c", 
+			"shape": [ 1147, 196  ,  1115, 163  ,  1170, 137]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle2d", 
+			"shape": [ 1114, 162  ,  1082, 147  ,  1170, 137 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle2e", 
+			"shape": [ 1081, 146  ,  1031, 137  ,  1170, 137 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle3a", 
+			"shape": [ 1164, 666,  1170, 618  ,  1170, 771 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle3b", 
+			"shape": [ 1148, 710  ,  1163, 668  ,  1170, 771 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle3c", 
+			"shape": [ 1115, 745  ,  1147, 712  ,  1170, 771]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle3d", 
+			"shape": [ 1082, 761  ,  1114, 746 ,  1170, 771 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle3e", 
+			"shape": [ 1031, 771 ,  1081, 762  ,  1170, 771 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle4a", 
+			"shape": [  117, 666  ,  111, 771  ,  111, 618 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle4b", 
+			"shape": [  111, 771  ,  118, 668  ,  133, 710]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle4c", 
+			"shape": [ 111, 771  ,  134, 712  ,  166, 745 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle4d", 
+			"shape": [ 111, 771  ,  167, 746  ,  199, 761 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "angle4e", 
+			"shape": [ 111, 771  ,  200, 762  ,  250, 771 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "top-angle-left", 
+			"shape": [ 323, 78  ,  323, 31  ,  370, 31 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "top-angle-right", 
+			"shape": [ 910, 31  ,  959, 31  ,  959, 78 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "bottom-angle-left", 
+			"shape": [ 370, 877  ,  323, 877  ,  323, 830 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "bottom-angle-right", 
+			"shape": [ 910, 877  ,    959, 830  ,  959, 877  ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "red goal wedge - top", 
+			"shape": [ 1269, 351  ,  1269, 386  , 1245, 351 ]
+		},
+		{
+			"density": 2, "friction": 0, "bounce": 0, "note": "red goal wedge - bottom", 
+			"shape": [  1269, 559   ,  1245, 559  ,  1269, 524 ]
+		}
+	]
+	
+}

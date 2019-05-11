@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Cars v0.2</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <script src="phaser.min.js"></script>
+  <script src="game.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #494c4e;
+    }
+    canvas {
+      margin: 0 auto;
+      width: auto !important;
+      height: 100vh !important;
+    }
+    button {
+      width: 80px;
+      margin-left: -40px;
+      left: 50%;
+    	position: absolute;
+      top: 5px;
+      display: none;
+    }
+    :-webkit-full-screen .fullscreen {
+    	display: none;
+    }
+  </style>
+  <script>
+  	function goFullscreen(id) {
+    var element = document.getElementById(id);
+		if (element.webkitRequestFullScreen) {
+      element.webkitRequestFullScreen();
+   }
+  }
+  </script>
+</head>
+<body id="game">
+<div class="fullscreen">
+	<button class="fullscreen" onclick="goFullscreen('game'); return false">Fullscreen</button>
+</div> 
+
+</body>
+</html>
