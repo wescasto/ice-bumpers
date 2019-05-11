@@ -9,16 +9,24 @@ var config = {
 
 var game = new Phaser.Game(config);
 
+WebFontConfig = {
+    //  The Google Fonts we want to load (specify as many as you like in the array)
+    google: {
+      families: ['Bungee']
+    }
+};
+
 function preload() {
-    game.load.image('puck', 'puck.png');
-    game.load.spritesheet('car1', 'car-wes-blue.png', 100, 130);
-    game.load.spritesheet('car2', 'car-brad-blue.png', 100, 130);
-    game.load.spritesheet('car3', 'car-dan-red.png', 100, 130);
-    game.load.spritesheet('car4', 'car-jared-red.png', 100, 130);
-    game.load.spritesheet('indicator', 'controller-indicator.png', 90, 48);
-    game.load.image('pole', 'pole2x.png');
-    game.load.image('stage', 'stage2x.png');
-    game.load.image('map2', 'transparent.png');
+    game.load.script('webfont', '//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
+    game.load.image('puck', 'img/puck.png');
+    game.load.spritesheet('car1', 'img/car-wes-blue.png', 100, 130);
+    game.load.spritesheet('car2', 'img/car-brad-blue.png', 100, 130);
+    game.load.spritesheet('car3', 'img/car-dan-red.png', 100, 130);
+    game.load.spritesheet('car4', 'img/car-jared-red.png', 100, 130);
+    game.load.spritesheet('indicator', 'img/controller-indicator.png', 90, 48);
+    game.load.image('pole', 'img/pole2x.png');
+    game.load.image('stage', 'img/stage2x.png');
+    game.load.image('map2', 'img/transparent.png');
     game.load.physics('mapData', 'mapBounds.json');
 }
 
@@ -70,7 +78,7 @@ function create() {
 
 
     // Goal scoring
-    var style = { font: "bold 32px Bungee", fill: "#fff"};
+    var style = { font: "32px Bungee, sans-serif", fill: "#fff"};
     redText = game.add.text(50, 450, "GOAL!!!", style);
     redText.alpha = 0;
     redText.anchor.setTo(0.5, 0.5);
@@ -86,7 +94,7 @@ function create() {
     timer = game.time.create(false);
     timer.loop(Phaser.Timer.SECOND, updateClock, this);
     timer.start();
-    var clockStyle = { font: "bold 36px Bungee", fill: "#fff", align: "center" };
+    var clockStyle = { font: "36px Bungee, sans-serif", fill: "#fff", align: "center" };
     gameClockText = game.add.text(1060, 66, '-:--', clockStyle);
     gameClockText.anchor.setTo(0.5, 0.5);
 
