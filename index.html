@@ -29,8 +29,8 @@
     }
   </style>
   <script>
-  	function goFullscreen(id) {
-    var element = document.getElementById(id);
+  	function goFullscreen() {
+    var element = document.getElementById('game');
 		if (element.webkitRequestFullScreen) {
       element.webkitRequestFullScreen();
    }
@@ -39,7 +39,7 @@
 </head>
 <body id="game">
 <div class="fullscreen">
-	<button class="fullscreen" onclick="goFullscreen('game'); return false">Fullscreen</button>
+	<button class="fullscreen" onclick="goFullscreen(); return false">Fullscreen</button>
 </div> 
 </body>
 </html>

@@ -11,6 +11,13 @@ var game = new Phaser.Game(config);
 
 WebFontConfig = {
     //  The Google Fonts we want to load (specify as many as you like in the array)
+
+    //  We set a 1 second delay before calling 'createText'.
+    //  For some reason if we don't the browser cannot render the text the first time it's created.
+    active: function() {
+        game.time.events.add(Phaser.Timer.SECOND, setScoreText, this);
+    },
+    
     google: {
       families: ['Bungee']
     }
@@ -41,6 +48,8 @@ var timer, clockMinutes, clockSeconds;
 var gameClock = 180;
 var redGoalCount = 0;
 var blueGoalCount = 0;
+var redGoalCountText, blueGoalCountText;
+var clockStyle = { font: '36px Bungee, sans-serif', fill: '#fff', align: 'center' };
 
 var activePuck = true;
 var initialThrust = 3000;
@@ -77,7 +86,7 @@ function create() {
     map.body.kinematic = true; // fix the object
 
     // Goal scoring
-    var style = { font: "32px Bungee, sans-serif", fill: "#fff"};
+    var style = { font: '32px Bungee, sans-serif', fill: '#fff' };
     redText = game.add.text(50, 450, "GOAL!!!", style);
     redText.alpha = 0;
     redText.anchor.setTo(0.5, 0.5);
@@ -93,15 +102,8 @@ function create() {
     timer = game.time.create(false);
     timer.loop(Phaser.Timer.SECOND, updateClock, this);
     timer.start();
-    var clockStyle = { font: "36px Bungee, sans-serif", fill: "#fff", align: "center" };
     gameClockText = game.add.text(1060, 66, '-:--', clockStyle);
     gameClockText.anchor.setTo(0.5, 0.5);
-
-    // scores
-    redGoalCountText = game.add.text(186, 66, redGoalCount, clockStyle);
-    redGoalCountText.anchor.setTo(0.5, 0.5);
-    blueGoalCountText = game.add.text(258, 66, blueGoalCount, clockStyle);
-    blueGoalCountText.anchor.setTo(0.5, 0.5);
 
     pole = game.add.sprite(480, 294, 'pole');
     pole.width = poleSize;
@@ -294,6 +296,14 @@ function updateClock() {
         timer.stop();
         gameOver();
     }
+}
+
+function setScoreText() {
+    // create scoreboard text
+    redGoalCountText = game.add.text(186, 66, redGoalCount, clockStyle);
+    redGoalCountText.anchor.setTo(0.5, 0.5);
+    blueGoalCountText = game.add.text(258, 66, blueGoalCount, clockStyle);
+    blueGoalCountText.anchor.setTo(0.5, 0.5);
 }
 
 function gameOver() {
