@@ -15,7 +15,7 @@ WebFontConfig = {
     //  We set a 1 second delay before calling 'createText'.
     //  For some reason if we don't the browser cannot render the text the first time it's created.
     active: function() {
-        game.time.events.add(Phaser.Timer.SECOND, setScoreText, this);
+        game.time.events.add(Phaser.Timer.SECOND, createScoreText, this);
     },
     
     google: {
@@ -217,6 +217,7 @@ function accelerate(car, xStick, yStick, speed) {
     car.body.rotation = angle + game.math.degToRad(90);  // correct the angle
     car.body.force.x = Math.cos(angle) * speed; // apply acceleration 
     car.body.force.y = Math.sin(angle) * speed;
+    // stop drift angle https://gist.github.com/ShimShamSam/f10d60ad39040ed6add0
 }
 
 function handleKeyboardInput () {
@@ -285,10 +286,10 @@ function resetPuck() {
 }
 
 function updateClock() {
-    clockMinutes = Math.floor(gameClock / 60); //Convert seconds into minutes and seconds
+    clockMinutes = Math.floor(gameClock / 60); // Convert seconds into minutes and seconds
     clockSeconds = Math.floor(gameClock) - (60 * clockMinutes);
-    var result = clockMinutes; //Display minutes
-    result += (clockSeconds < 10) ? ':0' + clockSeconds : ':' + clockSeconds; //Display seconds, add a 0 to the start if less than 10
+    var result = clockMinutes; // Display minutes
+    result += (clockSeconds < 10) ? ':0' + clockSeconds : ':' + clockSeconds; // Display seconds, add a 0 to the start if less than 10
     gameClockText.text = result;
     gameClock -= 1;
 
@@ -298,8 +299,7 @@ function updateClock() {
     }
 }
 
-function setScoreText() {
-    // create scoreboard text
+function createScoreText() {
     redGoalCountText = game.add.text(186, 66, redGoalCount, clockStyle);
     redGoalCountText.anchor.setTo(0.5, 0.5);
     blueGoalCountText = game.add.text(258, 66, blueGoalCount, clockStyle);
