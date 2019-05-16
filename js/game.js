@@ -63,9 +63,8 @@ var carHeight = 65;
 var carDamping = 0.99;
 var carMass = 6;
 var puckMass = 1;
+var poleGroup;
 var puckSize = 25;
-var poleSize = 106;
-var poleBody = 33;
 
 function create() {
     stage = game.add.sprite(0, 0, 'stage');
@@ -105,33 +104,15 @@ function create() {
     gameClockText = game.add.text(1060, 66, '-:--', clockStyle);
     gameClockText.anchor.setTo(0.5, 0.5);
 
-    pole = game.add.sprite(480, 294, 'pole');
-    pole.width = poleSize;
-    pole.height = poleSize;
-    game.physics.p2.enable(pole, false);
-    pole.body.setCircle(poleBody);
-    pole.body.kinematic = true; // fix the object
+    // create pole physics group
+    poleGroup = game.add.group();
+    poleGroup.enableBody = true;
+    poleGroup.physicsBodyType = Phaser.Physics.P2JS;
 
-    pole2 = game.add.sprite(800, 294, 'pole');
-    pole2.width = poleSize;
-    pole2.height = poleSize;
-    game.physics.p2.enable(pole2, false);
-    pole2.body.setCircle(poleBody);
-    pole2.body.kinematic = true; // fix the object
-
-    pole3 = game.add.sprite(480, 612, 'pole');
-    pole3.width = poleSize;
-    pole3.height = poleSize;
-    game.physics.p2.enable(pole3, false);
-    pole3.body.setCircle(poleBody);
-    pole3.body.kinematic = true; // fix the object
-
-    pole4 = game.add.sprite(800, 612, 'pole');
-    pole4.width = poleSize;
-    pole4.height = poleSize;
-    game.physics.p2.enable(pole4, false);
-    pole4.body.setCircle(poleBody);
-    pole4.body.kinematic = true; // fix the object
+    createPole(480, 294);
+    createPole(800, 294);
+    createPole(480, 612);
+    createPole(800, 612);
 
     // bumper car (player1)
     car1 = game.add.sprite(1110, 410, 'car1');
@@ -211,7 +192,15 @@ function create() {
     indicator4.height = 24;
 }
 
-function accelerate(car, xStick, yStick, speed) {
+function createPole (x, y) {
+    var pole = poleGroup.create(x, y, 'pole');
+    pole.width = 106;
+    pole.height = 106;
+    pole.body.setCircle(33);
+    pole.body.kinematic = true; // fix the object
+}
+
+function accelerate (car, xStick, yStick, speed) {
     car.frame = 1;
     var angle = Math.atan2(yStick, xStick);
     car.body.rotation = angle + game.math.degToRad(90);  // correct the angle
