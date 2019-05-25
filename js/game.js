@@ -88,12 +88,12 @@ function create() {
 
     // Goal scoring
     var style = { font: '32px Bungee, sans-serif', fill: '#fff' };
-    redText = game.add.text(50, 450, "GOAL!!!", style);
+    redText = game.add.text(66, 450, "GOAL!!!", style);
     redText.alpha = 0;
     redText.anchor.setTo(0.5, 0.5);
     redText.angle = 270;
 
-    blueText = game.add.text(1230, 450, "GOAL!!!", style);
+    blueText = game.add.text(1215, 450, "GOAL!!!", style);
     blueText.alpha = 0;
     blueText.anchor.setTo(0.5, 0.5);
     blueText.angle = 90;
