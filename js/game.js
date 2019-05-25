@@ -32,7 +32,7 @@ function preload() {
     game.load.spritesheet('car4', 'img/car-jared-red.png', 100, 130);
     game.load.spritesheet('indicator', 'img/controller-indicator.png', 90, 48);
     game.load.image('pole', 'img/pole2x.png');
-    game.load.image('stage', 'img/stage2x.png');
+    game.load.image('stage', 'img/stage2x.jpg');
     game.load.image('map2', 'img/transparent.png');
     game.load.physics('mapData', 'mapBounds.json');
 }
@@ -278,9 +278,9 @@ function updateClock() {
 }
 
 function createScoreText() {
-    redGoalCountText = game.add.text(186, 66, redGoalCount, clockStyle);
+    redGoalCountText = game.add.text(186, 68, redGoalCount, clockStyle);
     redGoalCountText.anchor.setTo(0.5, 0.5);
-    blueGoalCountText = game.add.text(258, 66, blueGoalCount, clockStyle);
+    blueGoalCountText = game.add.text(258, 68, blueGoalCount, clockStyle);
     blueGoalCountText.anchor.setTo(0.5, 0.5);
 }
 
