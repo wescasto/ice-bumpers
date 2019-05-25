@@ -41,6 +41,7 @@ var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage;
 var redText, blueText;
 var pad1, pad2, pad3, pad4, cursors, pauseKey;
 var wKey, aKey, sKey, dKey;
+var carsCanDrive = true;
 
 var angle, xValue, yValue;
 var indicator1, indicator2, indicator3, indicator4;
@@ -226,6 +227,7 @@ function scoreRedGoal() {
     blueGoalCountText.text = blueGoalCount;
     redText.alpha = 1;
     game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
+    carsCanDrive = false;
 }
 
 function scoreBlueGoal() {
@@ -235,6 +237,7 @@ function scoreBlueGoal() {
     redGoalCountText.text = redGoalCount;
     blueText.alpha = 1;
     game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
+    carsCanDrive = false;
 }
 
 function resetPuck() {
@@ -255,6 +258,9 @@ function resetPuck() {
 
     car4.reset(170, 498);
     car4.body.angle = 90;
+
+    // wait 1 second, then let cars move again
+    game.time.events.add(Phaser.Timer.SECOND, enableCars, this);
 }
 
 function updateClock() {
@@ -276,6 +282,10 @@ function createScoreText() {
     redGoalCountText.anchor.setTo(0.5, 0.5);
     blueGoalCountText = game.add.text(258, 66, blueGoalCount, clockStyle);
     blueGoalCountText.anchor.setTo(0.5, 0.5);
+}
+
+function enableCars() {
+    carsCanDrive = true;
 }
 
 function gameOver() {
@@ -306,56 +316,6 @@ function update() {
             indicator4.animations.frame = 2;
         }
     }
-
-    // player 1 (arrow keys)
-    if (cursors.left.isDown) { // left
-        car1.body.angle = -90;
-        car1.body.velocity.x -= 20;
-    } else if (cursors.right.isDown) { // right
-        car1.body.angle = 90;
-        car1.body.velocity.x += 20;
-    } if (cursors.up.isDown) { // up
-        car1.body.angle = 0;
-        car1.body.velocity.y -= 20;
-    } else if (cursors.down.isDown) { // down
-        car1.body.angle = 180;
-        car1.body.velocity.y += 20;
-    }
-
-    if (cursors.left.isDown && cursors.up.isDown) { // left + up
-        car1.body.angle = -45;
-    } else if (cursors.up.isDown && cursors.right.isDown) { // up + right
-        car1.body.angle = 45;
-    } else if (cursors.right.isDown && cursors.down.isDown) { // right + down
-        car1.body.angle = 135;
-    } else if (cursors.down.isDown && cursors.left.isDown) { // down + left
-        car1.body.angle = -135;
-    }
-
-    // player 4 (w a s d keys)
-    if (this.aKey.isDown) { // left
-        car4.body.angle = -90;
-        car4.body.velocity.x -= 20;
-    } else if (this.dKey.isDown) { // right
-        car4.body.angle = 90;
-        car4.body.velocity.x += 20;
-    } if (this.wKey.isDown) { // up
-        car4.body.angle = 0;
-        car4.body.velocity.y -= 20;
-    } else if (this.sKey.isDown) { // down
-        car4.body.angle = 180;
-        car4.body.velocity.y += 20;
-    }
-
-    if (this.aKey.isDown && this.wKey.isDown) { // left + up
-        car4.body.angle = -45;
-    } else if (this.wKey.isDown && this.dKey.isDown) { // up + right
-        car4.body.angle = 45;
-    } else if (this.dKey.isDown && this.sKey.isDown) { // right + down
-        car4.body.angle = 135;
-    } else if (this.sKey.isDown && this.aKey.isDown) { // down + left
-        car4.body.angle = -135;
-    }
     
     // puck and scoring
     if (activePuck === true) {
@@ -383,58 +343,110 @@ function update() {
     pad4Xstick = pad4.axis(Phaser.Gamepad.AXIS_0);
     pad4Ystick = pad4.axis(Phaser.Gamepad.AXIS_1);    
 
-    // car 1
-    if (pad1.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad1.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
-        accelerate(car1, pad1Xstick, pad1Ystick, accelerateSpeed);
-    } else if (pad1.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad1.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
-        accelerate(car1, pad1Xstick, pad1Ystick, accelerateSpeed);
-    } else {
-        car1.frame = 0;
-    }
-    // speed boost
-    if (pad1.justPressed(Phaser.Gamepad.BUTTON_0)) {
-        car1.body.thrust(initialThrust * 1.2);
-    }
+    if (carsCanDrive) {
+        // player 1 (arrow keys)
+        if (cursors.left.isDown) { // left
+            car1.body.angle = -90;
+            car1.body.velocity.x -= 20;
+        } else if (cursors.right.isDown) { // right
+            car1.body.angle = 90;
+            car1.body.velocity.x += 20;
+        } if (cursors.up.isDown) { // up
+            car1.body.angle = 0;
+            car1.body.velocity.y -= 20;
+        } else if (cursors.down.isDown) { // down
+            car1.body.angle = 180;
+            car1.body.velocity.y += 20;
+        }
 
-    // car 2
-    if (pad2.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad2.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
-        accelerate(car2, pad2Xstick, pad2Ystick, accelerateSpeed);
-    } else if (pad2.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad2.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
-        accelerate(car2, pad2Xstick, pad2Ystick, accelerateSpeed);
-    } else {
-        car2.frame = 0;
-    }
-    // speed boost
-    if (pad2.justPressed(Phaser.Gamepad.BUTTON_0)) {
-        car2.body.thrust(initialThrust * 1.2);
-    }
+        if (cursors.left.isDown && cursors.up.isDown) { // left + up
+            car1.body.angle = -45;
+        } else if (cursors.up.isDown && cursors.right.isDown) { // up + right
+            car1.body.angle = 45;
+        } else if (cursors.right.isDown && cursors.down.isDown) { // right + down
+            car1.body.angle = 135;
+        } else if (cursors.down.isDown && cursors.left.isDown) { // down + left
+            car1.body.angle = -135;
+        }
 
-    // car 3
-    if (pad3.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad3.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
-        accelerate(car3, pad3Xstick, pad3Ystick, accelerateSpeed);
-    } else if (pad3.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad3.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
-        accelerate(car3, pad3Xstick, pad3Ystick, accelerateSpeed);
-    } else {
-        car3.frame = 0;
-    }
-    // speed boost
-    if (pad3.justPressed(Phaser.Gamepad.BUTTON_0)) {
-        car3.body.thrust(initialThrust * 1.2);
-    }
+        // player 4 (w a s d keys)
+        if (this.aKey.isDown) { // left
+            car4.body.angle = -90;
+            car4.body.velocity.x -= 20;
+        } else if (this.dKey.isDown) { // right
+            car4.body.angle = 90;
+            car4.body.velocity.x += 20;
+        } if (this.wKey.isDown) { // up
+            car4.body.angle = 0;
+            car4.body.velocity.y -= 20;
+        } else if (this.sKey.isDown) { // down
+            car4.body.angle = 180;
+            car4.body.velocity.y += 20;
+        }
 
-    // car 4
-    if (pad4.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad4.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
-        accelerate(car4, pad4Xstick, pad4Ystick, accelerateSpeed);
-    } else if (pad4.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad4.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
-        accelerate(car4, pad4Xstick, pad4Ystick, accelerateSpeed);
-    } else {
-        car4.frame = 0;
-    }
-    // speed boost
-    if (pad4.justPressed(Phaser.Gamepad.BUTTON_0)) {
-        car4.body.thrust(initialThrust * 1.2);
-    }
+        if (this.aKey.isDown && this.wKey.isDown) { // left + up
+            car4.body.angle = -45;
+        } else if (this.wKey.isDown && this.dKey.isDown) { // up + right
+            car4.body.angle = 45;
+        } else if (this.dKey.isDown && this.sKey.isDown) { // right + down
+            car4.body.angle = 135;
+        } else if (this.sKey.isDown && this.aKey.isDown) { // down + left
+            car4.body.angle = -135;
+        }
 
+        // car 1 gamepad
+        if (pad1.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad1.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
+            accelerate(car1, pad1Xstick, pad1Ystick, accelerateSpeed);
+        } else if (pad1.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad1.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
+            accelerate(car1, pad1Xstick, pad1Ystick, accelerateSpeed);
+        } else {
+            car1.frame = 0;
+        }
+        // speed boost
+        if (pad1.justPressed(Phaser.Gamepad.BUTTON_0)) {
+            car1.body.thrust(initialThrust * 1.2);
+        }
+
+        // car 2 gamepad
+        if (pad2.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad2.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
+            accelerate(car2, pad2Xstick, pad2Ystick, accelerateSpeed);
+        } else if (pad2.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad2.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
+            accelerate(car2, pad2Xstick, pad2Ystick, accelerateSpeed);
+        } else {
+            car2.frame = 0;
+        }
+        // speed boost
+        if (pad2.justPressed(Phaser.Gamepad.BUTTON_0)) {
+            car2.body.thrust(initialThrust * 1.2);
+        }
+
+        // car 3 gamepad
+        if (pad3.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad3.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
+            accelerate(car3, pad3Xstick, pad3Ystick, accelerateSpeed);
+        } else if (pad3.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad3.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
+            accelerate(car3, pad3Xstick, pad3Ystick, accelerateSpeed);
+        } else {
+            car3.frame = 0;
+        }
+        // speed boost
+        if (pad3.justPressed(Phaser.Gamepad.BUTTON_0)) {
+            car3.body.thrust(initialThrust * 1.2);
+        }
+
+        // car 4 gamepad
+        if (pad4.axis(Phaser.Gamepad.AXIS_0) < -0.2 || pad4.axis(Phaser.Gamepad.AXIS_0) > 0.2) {
+            accelerate(car4, pad4Xstick, pad4Ystick, accelerateSpeed);
+        } else if (pad4.axis(Phaser.Gamepad.AXIS_1) < -0.2 || pad4.axis(Phaser.Gamepad.AXIS_1) > 0.2) {
+            accelerate(car4, pad4Xstick, pad4Ystick, accelerateSpeed);
+        } else {
+            car4.frame = 0;
+        }
+        // speed boost
+        if (pad4.justPressed(Phaser.Gamepad.BUTTON_0)) {
+            car4.body.thrust(initialThrust * 1.2);
+        }
+    }
+    
     /*
     justPressed
     justReleased
