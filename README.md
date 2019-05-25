@@ -1,6 +1,6 @@
 # Bumper Cars
 
-![bumper-cars](https://user-images.githubusercontent.com/9968431/57572713-80175680-73ec-11e9-8409-93bf589acbfb.png)
+![bumper-screenshot](https://user-images.githubusercontent.com/9968431/58369083-8533d580-7ec3-11e9-94cd-96c78534de40.jpg)
 
 ## Running the game on MacOS
 
@@ -12,7 +12,11 @@
 
 ## Playing the game
 
-Players must hit the orange puck into their opponent's goal to score. The team with the most goals before time runs out wins. *Note: this game requires at least one gamepad controller to move players. It's also a work in progress so many of the mechanics are still incomplete!*
+Players must hit the orange puck into their opponent's goal to score. The team with the most goals before time runs out wins.
+
+## Controls
+
+Gamepads are recommended for best experience, but you can use the arrow keys to control player 1, and w, a, s, and d keys to move player 4.
 
 ## Gamepad support
 
