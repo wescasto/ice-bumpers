@@ -40,6 +40,7 @@ function preload() {
 var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage;
 var redText, blueText;
 var pad1, pad2, pad3, pad4, cursors, pauseKey;
+var wKey, aKey, sKey, dKey;
 
 var angle, xValue, yValue;
 var indicator1, indicator2, indicator3, indicator4;
@@ -174,8 +175,17 @@ function create() {
     pad3 = game.input.gamepad.pad3; pad3.deadZone = 0;
     pad4 = game.input.gamepad.pad4; pad4.deadZone = 0;
 
-    // Keyboard (for testing only)
+    // Enable keyboard cursors for testing
     cursors = game.input.keyboard.createCursorKeys();
+
+    //  Register the keys
+    this.wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
+    this.aKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
+    this.sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
+    this.dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+
+    //  Stop the following keys from propagating up to the browser
+    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.W, Phaser.Keyboard.A, Phaser.Keyboard.S, Phaser.Keyboard.D ]);
 
     // are controllers synced?
     indicator1 = game.add.sprite(1228, 92, 'indicator');
@@ -207,33 +217,6 @@ function accelerate (car, xStick, yStick, speed) {
     car.body.force.x = Math.cos(angle) * speed; // apply acceleration 
     car.body.force.y = Math.sin(angle) * speed;
     // stop drift angle https://gist.github.com/ShimShamSam/f10d60ad39040ed6add0
-}
-
-function handleKeyboardInput () {
-    car4.frame = 1;
-    if (cursors.left.isDown) { // left
-        car4.body.angle = -90;
-        car4.body.velocity.x -= 20;
-    } else if (cursors.right.isDown) { // right
-        car4.body.angle = 90;
-        car4.body.velocity.x += 20;
-    } if (cursors.up.isDown) { // up
-        car4.body.angle = 0;
-        car4.body.velocity.y -= 20;
-    } else if (cursors.down.isDown) { // down
-        car4.body.angle = 180;
-        car4.body.velocity.y += 20;
-    }
-
-    if (cursors.left.isDown && cursors.up.isDown) { // left + up
-        car4.body.angle = -45;
-    } else if (cursors.up.isDown && cursors.right.isDown) { // up + right
-        car4.body.angle = 45;
-    } else if (cursors.right.isDown && cursors.down.isDown) { // right + down
-        car4.body.angle = 135;
-    } else if (cursors.down.isDown && cursors.left.isDown) { // down + left
-        car4.body.angle = -135;
-    }
 }
 
 function scoreRedGoal() {
@@ -324,8 +307,55 @@ function update() {
         }
     }
 
-    // enable keyboard for testing (player4)
-    handleKeyboardInput();
+    // player 1 (arrow keys)
+    if (cursors.left.isDown) { // left
+        car1.body.angle = -90;
+        car1.body.velocity.x -= 20;
+    } else if (cursors.right.isDown) { // right
+        car1.body.angle = 90;
+        car1.body.velocity.x += 20;
+    } if (cursors.up.isDown) { // up
+        car1.body.angle = 0;
+        car1.body.velocity.y -= 20;
+    } else if (cursors.down.isDown) { // down
+        car1.body.angle = 180;
+        car1.body.velocity.y += 20;
+    }
+
+    if (cursors.left.isDown && cursors.up.isDown) { // left + up
+        car1.body.angle = -45;
+    } else if (cursors.up.isDown && cursors.right.isDown) { // up + right
+        car1.body.angle = 45;
+    } else if (cursors.right.isDown && cursors.down.isDown) { // right + down
+        car1.body.angle = 135;
+    } else if (cursors.down.isDown && cursors.left.isDown) { // down + left
+        car1.body.angle = -135;
+    }
+
+    // player 4 (w a s d keys)
+    if (this.aKey.isDown) { // left
+        car4.body.angle = -90;
+        car4.body.velocity.x -= 20;
+    } else if (this.dKey.isDown) { // right
+        car4.body.angle = 90;
+        car4.body.velocity.x += 20;
+    } if (this.wKey.isDown) { // up
+        car4.body.angle = 0;
+        car4.body.velocity.y -= 20;
+    } else if (this.sKey.isDown) { // down
+        car4.body.angle = 180;
+        car4.body.velocity.y += 20;
+    }
+
+    if (this.aKey.isDown && this.wKey.isDown) { // left + up
+        car4.body.angle = -45;
+    } else if (this.wKey.isDown && this.dKey.isDown) { // up + right
+        car4.body.angle = 45;
+    } else if (this.dKey.isDown && this.sKey.isDown) { // right + down
+        car4.body.angle = 135;
+    } else if (this.sKey.isDown && this.aKey.isDown) { // down + left
+        car4.body.angle = -135;
+    }
     
     // puck and scoring
     if (activePuck === true) {
