@@ -16,6 +16,7 @@ WebFontConfig = {
     //  For some reason if we don't the browser cannot render the text the first time it's created.
     active: function() {
         game.time.events.add(Phaser.Timer.SECOND, createScoreText, this);
+        game.time.events.add(Phaser.Timer.SECOND, createGoalText, this);
     },
     
     google: {
@@ -85,18 +86,6 @@ function create() {
     map.body.clearShapes();
     map.body.loadPolygon('mapData', 'map2');
     map.body.kinematic = true; // fix the object
-
-    // Goal scoring
-    var style = { font: '32px Bungee, sans-serif', fill: '#fff' };
-    redText = game.add.text(66, 450, "GOAL!!!", style);
-    redText.alpha = 0;
-    redText.anchor.setTo(0.5, 0.5);
-    redText.angle = 270;
-
-    blueText = game.add.text(1215, 450, "GOAL!!!", style);
-    blueText.alpha = 0;
-    blueText.anchor.setTo(0.5, 0.5);
-    blueText.angle = 90;
 
     // clock
     // http://phaser.io/docs/2.6.2/Phaser.Timer.html
@@ -282,6 +271,19 @@ function createScoreText() {
     redGoalCountText.anchor.setTo(0.5, 0.5);
     blueGoalCountText = game.add.text(258, 68, blueGoalCount, clockStyle);
     blueGoalCountText.anchor.setTo(0.5, 0.5);
+}
+
+function createGoalText() {
+    var style = { font: '32px Bungee, sans-serif', fill: '#fff' };
+    redText = game.add.text(66, 450, "GOAL!!!", style);
+    redText.alpha = 0;
+    redText.anchor.setTo(0.5, 0.5);
+    redText.angle = 270;
+
+    blueText = game.add.text(1215, 450, "GOAL!!!", style);
+    blueText.alpha = 0;
+    blueText.anchor.setTo(0.5, 0.5);
+    blueText.angle = 90;
 }
 
 function enableCars() {
