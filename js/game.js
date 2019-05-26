@@ -165,7 +165,7 @@ function create() {
 
     // create sound effect
     goalScoreSound = game.add.audio('air-horn');
-    goalScoreSound.volume = 0.4;
+    goalScoreSound.volume = 0.2;
 
     // Gamepad
     game.input.gamepad.start();
@@ -218,26 +218,22 @@ function accelerate (car, xStick, yStick, speed) {
     // stop drift angle https://gist.github.com/ShimShamSam/f10d60ad39040ed6add0
 }
 
-function scoreRedGoal() {
+function scoreGoal (scoringTeam) {
     goalScoreSound.play();
     activePuck = false;
     timer.pause();
-    blueGoalCount += 1;
-    blueGoalCountText.text = blueGoalCount;
-    redText.alpha = 1;
     game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
     carsCanDrive = false;
-}
 
-function scoreBlueGoal() {
-    goalScoreSound.play();
-    activePuck = false;
-    timer.pause();
-    redGoalCount += 1;
-    redGoalCountText.text = redGoalCount;
-    blueText.alpha = 1;
-    game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
-    carsCanDrive = false;
+    if (scoringTeam === 'red') {
+        blueGoalCount += 1;
+        blueGoalCountText.text = blueGoalCount;
+        redText.alpha = 1;
+    } else if (scoringTeam === 'blue') {
+        redGoalCount += 1;
+        redGoalCountText.text = redGoalCount;
+        blueText.alpha = 1;
+    }
 }
 
 function resetPuck() {
@@ -271,7 +267,7 @@ function updateClock() {
     gameClockText.text = result;
     gameClock -= 1;
 
-    if (gameClock == -1) {
+    if (gameClock === -1) {
         timer.stop();
         gameOver();
     }
@@ -343,10 +339,10 @@ function update() {
     // puck and scoring
     if (activePuck === true) {
         if (puck.body.x < 110) {
-            scoreRedGoal();
+            scoreGoal('red');
         }
         if (puck.body.x > 1170) {
-            scoreBlueGoal();
+            scoreGoal('blue');
         }
     }
 
