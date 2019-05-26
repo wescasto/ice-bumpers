@@ -36,6 +36,8 @@ function preload() {
     game.load.image('stage', 'img/stage2x.jpg');
     game.load.image('map2', 'img/transparent.png');
     game.load.physics('mapData', 'mapBounds.json');
+    game.load.audio('background-track', 'audio/background-track.mp3');
+    game.load.audio('air-horn', 'audio/air-horn.mp3');
 }
 
 var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage;
@@ -46,6 +48,7 @@ var carsCanDrive = true;
 
 var angle, xValue, yValue;
 var indicator1, indicator2, indicator3, indicator4;
+var goalScoreSound;
 
 var timer, clockMinutes, clockSeconds;
 var gameClock = 180;
@@ -158,6 +161,12 @@ function create() {
     puck.width = puckSize * 2;
     puck.body.mass = puckMass;
 
+    playBackgroundTrack();
+
+    // create sound effect
+    goalScoreSound = game.add.audio('air-horn');
+    goalScoreSound.volume = 0.4;
+
     // Gamepad
     game.input.gamepad.start();
     pad1 = game.input.gamepad.pad1; pad1.deadZone = 0;
@@ -210,6 +219,7 @@ function accelerate (car, xStick, yStick, speed) {
 }
 
 function scoreRedGoal() {
+    goalScoreSound.play();
     activePuck = false;
     timer.pause();
     blueGoalCount += 1;
@@ -220,6 +230,7 @@ function scoreRedGoal() {
 }
 
 function scoreBlueGoal() {
+    goalScoreSound.play();
     activePuck = false;
     timer.pause();
     redGoalCount += 1;
@@ -290,12 +301,22 @@ function enableCars() {
     carsCanDrive = true;
 }
 
+function playBackgroundTrack() {
+    // add music
+    music = game.add.audio('background-track');
+    music.volume = 0.6;
+    music.loop = true;
+    music.play();
+
+    // move to main menu click function when created
+    //game.sound.context.resume();
+}
+
 function gameOver() {
     console.log('Game over!');
 }
 
 function update() {
-
     if (game.input.gamepad.supported && game.input.gamepad.active) {
         if (game.input.gamepad.pad1.connected) {
             indicator1.animations.frame = 0;
