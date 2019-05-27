@@ -38,6 +38,7 @@ function preload() {
     game.load.physics('mapData', 'mapBounds.json');
     game.load.audio('background-track', 'audio/background-track.mp3');
     game.load.audio('air-horn', 'audio/air-horn.mp3');
+    game.load.audio('hit', 'audio/hit.mp3');
 }
 
 var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage;
@@ -48,7 +49,7 @@ var carsCanDrive = true;
 
 var angle, xValue, yValue;
 var indicator1, indicator2, indicator3, indicator4;
-var goalScoreSound;
+var goalScoreSound, hitSound;
 
 var timer, clockMinutes, clockSeconds;
 var gameClock = 180;
@@ -83,6 +84,7 @@ function create() {
     //  Enable P2
     game.physics.startSystem(Phaser.Physics.P2JS);
     game.physics.p2.restitution = 0.5;
+    game.physics.p2.setImpactEvents(true);
 
     map = game.add.sprite(10, 10, 'map2');
     game.physics.p2.enable(map, false);
@@ -160,12 +162,20 @@ function create() {
     puck.height = puckSize * 2;
     puck.width = puckSize * 2;
     puck.body.mass = puckMass;
+    // TODO: refactor into one car collision group: https://phaser.io/examples/v2/p2-physics/collision-groups
+    puck.body.createBodyCallback(car1, hitPuck, this); // detect collision with cars
+    puck.body.createBodyCallback(car2, hitPuck, this); // detect collision with cars
+    puck.body.createBodyCallback(car3, hitPuck, this); // detect collision with cars
+    puck.body.createBodyCallback(car4, hitPuck, this); // detect collision with cars
+
 
     playBackgroundTrack();
 
-    // create sound effect
+    // create sound effects
     goalScoreSound = game.add.audio('air-horn');
     goalScoreSound.volume = 0.2;
+    hitSound = game.add.audio('hit');
+    hitSound.volume = 0.3;
 
     // Gamepad
     game.input.gamepad.start();
@@ -291,6 +301,10 @@ function createGoalText() {
     blueText.alpha = 0;
     blueText.anchor.setTo(0.5, 0.5);
     blueText.angle = 90;
+}
+
+function hitPuck(body1, body2) {
+    hitSound.play();
 }
 
 function enableCars() {
