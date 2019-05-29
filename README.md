@@ -1,6 +1,6 @@
 # Bumper Cars
 
-![bumper-screenshot](https://user-images.githubusercontent.com/9968431/58369083-8533d580-7ec3-11e9-94cd-96c78534de40.jpg)
+![bumper-cars-screenshot](https://user-images.githubusercontent.com/9968431/58524591-bc8dd500-8196-11e9-8a19-214770c0bb79.jpg)
 
 ## Running the game on MacOS
 
@@ -16,7 +16,7 @@ Players must hit the orange puck into their opponent's goal to score. The team w
 
 ## Controls
 
-Gamepads are recommended for best experience, but you can use the arrow keys to control player 1, and w, a, s, and d keys to move player 4.
+Gamepads are recommended for best experience, but you can use the arrow keys and w, a, s, and d keys to control two of the players.
 
 ## Gamepad support
 
