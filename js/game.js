@@ -38,7 +38,7 @@ function preload() {
     game.load.image('black', 'img/black.png');
     game.load.physics('mapData', 'mapBounds.json');
     game.load.audio('background-track', 'audio/background-track.mp3');
-    game.load.audio('air-horn', 'audio/air-horn.mp3');
+    game.load.audio('cheer', 'audio/cheer.mp3');
     game.load.audio('hit', 'audio/hit.mp3');
 }
 
@@ -173,7 +173,7 @@ function create() {
     playBackgroundTrack();
 
     // create sound effects
-    goalScoreSound = game.add.audio('air-horn');
+    goalScoreSound = game.add.audio('cheer');
     goalScoreSound.volume = 0.7;
     hitSound = game.add.audio('hit');
     hitSound.volume = 0.5;
