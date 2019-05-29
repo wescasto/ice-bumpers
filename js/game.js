@@ -4,7 +4,7 @@ var config = {
     'renderer': Phaser.CANVAS,
     'parent': 'bumper-cars',
     'resolution': window.devicePixelRatio,
-    'state': { preload: preload, create: create, update: update}
+    'state': { preload: preload, create: create, update: update }
 }
 
 var game = new Phaser.Game(config);
@@ -35,13 +35,14 @@ function preload() {
     game.load.image('pole', 'img/pole2x.png');
     game.load.image('stage', 'img/stage2x.jpg');
     game.load.image('map2', 'img/transparent.png');
+    game.load.image('black', 'img/black.png');
     game.load.physics('mapData', 'mapBounds.json');
     game.load.audio('background-track', 'audio/background-track.mp3');
     game.load.audio('air-horn', 'audio/air-horn.mp3');
     game.load.audio('hit', 'audio/hit.mp3');
 }
 
-var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage;
+var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage, gameOverBackground;
 var redText, blueText;
 var pad1, pad2, pad3, pad4, cursors, pauseKey;
 var wKey, aKey, sKey, dKey;
@@ -52,10 +53,10 @@ var indicator1, indicator2, indicator3, indicator4;
 var goalScoreSound, hitSound;
 
 var timer, clockMinutes, clockSeconds;
-var gameClock = 180;
+var gameClock = 180; // Length of match in seconds
 var redGoalCount = 0;
 var blueGoalCount = 0;
-var redGoalCountText, blueGoalCountText;
+var redGoalCountText, blueGoalCountText, gameOverText;
 var clockStyle = { font: '36px Bungee, sans-serif', fill: '#fff', align: 'center' };
 
 var activePuck = true;
@@ -173,9 +174,9 @@ function create() {
 
     // create sound effects
     goalScoreSound = game.add.audio('air-horn');
-    goalScoreSound.volume = 0.2;
+    goalScoreSound.volume = 0.7;
     hitSound = game.add.audio('hit');
-    hitSound.volume = 0.3;
+    hitSound.volume = 0.5;
 
     // Gamepad
     game.input.gamepad.start();
@@ -314,7 +315,7 @@ function enableCars() {
 function playBackgroundTrack() {
     // add music
     music = game.add.audio('background-track');
-    music.volume = 0.6;
+    music.volume = 0.4;
     music.loop = true;
     music.play();
 
@@ -323,6 +324,17 @@ function playBackgroundTrack() {
 }
 
 function gameOver() {
+    // TODO: this should change to a Game Over scene instead
+    gameOverBackground = game.add.sprite(0, 0, 'black');
+    gameOverBackground.width = game.world.width * 2;
+    gameOverBackground.height = game.world.height * 2;
+    gameOverText = game.add.text(game.world.centerX, game.world.centerY - 70, 'Game Over', { font: '80px Bungee, sans-serif', fill: '#fff' });
+    gameOverText.anchor.setTo(0.5, 0.5);
+    replayText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Refresh to play again', { font: '40px Bungee, sans-serif', fill: '#fff' });
+    replayText.anchor.setTo(0.5, 0.5);
+    // aboutButton = game.add.button(235, 189, 'buttons', aboutClick, this, 3, 2, 3);
+    // aboutButton.width = 256;
+    // aboutButton.height = 82;
     console.log('Game over!');
 }
 
