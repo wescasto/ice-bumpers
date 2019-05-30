@@ -1,10 +1,10 @@
 var config = {
     'width': 1280,
     'height': 908,
-    'renderer': Phaser.CANVAS,
+    'renderer': Phaser.AUTO,
     'parent': 'bumper-cars',
     'resolution': window.devicePixelRatio,
-    'state': { preload: preload, create: create, update: update }
+    'state': { preload: preload, create: create, update: update, render: render }
 }
 
 var game = new Phaser.Game(config);
@@ -98,6 +98,7 @@ function create() {
     timer = game.time.create(false);
     timer.loop(Phaser.Timer.SECOND, updateClock, this);
     timer.start();
+    //game.time.advancedTiming = true; // needed for FPS in debug
     gameClockText = game.add.text(1060, 66, '-:--', clockStyle);
     gameClockText.anchor.setTo(0.5, 0.5);
 
@@ -168,7 +169,6 @@ function create() {
     puck.body.createBodyCallback(car2, hitPuck, this); // detect collision with cars
     puck.body.createBodyCallback(car3, hitPuck, this); // detect collision with cars
     puck.body.createBodyCallback(car4, hitPuck, this); // detect collision with cars
-
 
     playBackgroundTrack();
 
@@ -504,3 +504,7 @@ function update() {
     */
 
 } // end update();
+
+function render() {
+    //game.debug.text(game.time.fps, 5, 14, '#00ff00');
+}

@@ -29,17 +29,23 @@
     }
   </style>
   <script>
-  	function goFullscreen() {
-    var element = document.getElementById('game');
-		if (element.webkitRequestFullScreen) {
-      element.webkitRequestFullScreen();
-   }
-  }
+  	function enableFullscreen() {
+      var element = document.getElementById('game');
+      if (element.requestFullScreen) {
+        element.requestFullscreen();
+      } else if (element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
   </script>
 </head>
 <body id="game">
 <div class="fullscreen">
-	<button class="fullscreen" onclick="goFullscreen(); return false">Fullscreen</button>
+	<button class="fullscreen" onclick="enableFullscreen(); return false">Fullscreen</button>
 </div> 
 </body>
 </html>
