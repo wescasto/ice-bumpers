@@ -20,6 +20,6 @@ Gamepads are recommended for best experience, but you can use the arrow keys and
 
 ## Gamepad support
 
-This game supports several gamepad controllers including Playstation 3 and Playstation 4. Just connect the controller to your computer using a USB cable. The left stick controls ship movement while the right stick moves the turret and fires your weapon.
+This game supports several gamepad controllers including Playstation 3 and Playstation 4. Just connect the controller to your computer using a USB cable. The left stick controls your car movement.
 
-This game was built using PhaserJS (v2.6.2). See more at https://phaser.io/
+Best played in Chrome with fullscreen enabled. Built with PhaserJS (v2.6.2). See more at https://phaser.io/
