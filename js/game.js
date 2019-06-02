@@ -11,14 +11,6 @@ var game = new Phaser.Game(config);
 
 WebFontConfig = {
     //  The Google Fonts we want to load (specify as many as you like in the array)
-
-    //  We set a 1 second delay before calling 'createText'.
-    //  For some reason if we don't the browser cannot render the text the first time it's created.
-    active: function() {
-        game.time.events.add(Phaser.Timer.SECOND, createScoreText, this);
-        game.time.events.add(Phaser.Timer.SECOND, createGoalText, this);
-    },
-    
     google: {
       families: ['Bungee']
     }
@@ -36,17 +28,19 @@ function preload() {
     game.load.image('stage', 'img/stage2x.jpg');
     game.load.image('map2', 'img/transparent.png');
     game.load.image('black', 'img/black.png');
+    game.load.image('title', 'img/title.jpg');
     game.load.physics('mapData', 'mapBounds.json');
     game.load.audio('background-track', 'audio/background-track.mp3');
     game.load.audio('cheer', 'audio/cheer.mp3');
     game.load.audio('hit', 'audio/hit.mp3');
 }
 
-var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage, gameOverBackground;
+var map, car1, car2, car3, car4, puck, pole, pole2, pole3, pole4, stage, gameOverBackground, titleImage;
 var redText, blueText;
 var pad1, pad2, pad3, pad4, cursors, pauseKey;
-var wKey, aKey, sKey, dKey;
-var carsCanDrive = true;
+var wKey, aKey, sKey, dKey, enterKey;
+var carsCanDrive = false;
+var onTitleScreen = true;
 
 var angle, xValue, yValue;
 var indicator1, indicator2, indicator3, indicator4;
@@ -56,7 +50,7 @@ var timer, clockMinutes, clockSeconds;
 var gameClock = 180; // Length of match in seconds
 var redGoalCount = 0;
 var blueGoalCount = 0;
-var redGoalCountText, blueGoalCountText, gameOverText;
+var redGoalCountText, blueGoalCountText, startText, gameOverText;
 var clockStyle = { font: '36px Bungee, sans-serif', fill: '#fff', align: 'center' };
 
 var activePuck = true;
@@ -75,12 +69,12 @@ var poleGroup;
 var puckSize = 25;
 
 function create() {
+    //  world size
+    game.world.setBounds(0, 0, 1280, 908);
+
     stage = game.add.sprite(0, 0, 'stage');
     stage.width = 1280;
     stage.height = 908;
-
-    //  world size
-    game.world.setBounds(0, 0, 1280, 908);
 
     //  Enable P2
     game.physics.startSystem(Phaser.Physics.P2JS);
@@ -97,7 +91,6 @@ function create() {
     // http://phaser.io/docs/2.6.2/Phaser.Timer.html
     timer = game.time.create(false);
     timer.loop(Phaser.Timer.SECOND, updateClock, this);
-    timer.start();
     //game.time.advancedTiming = true; // needed for FPS in debug
     gameClockText = game.add.text(1060, 66, '-:--', clockStyle);
     gameClockText.anchor.setTo(0.5, 0.5);
@@ -170,8 +163,6 @@ function create() {
     puck.body.createBodyCallback(car3, hitPuck, this); // detect collision with cars
     puck.body.createBodyCallback(car4, hitPuck, this); // detect collision with cars
 
-    playBackgroundTrack();
-
     // create sound effects
     goalScoreSound = game.add.audio('cheer');
     goalScoreSound.volume = 0.7;
@@ -193,9 +184,10 @@ function create() {
     this.aKey = game.input.keyboard.addKey(Phaser.Keyboard.A);
     this.sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
     this.dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
+    this.enterKey = game.input.keyboard.addKey(Phaser.Keyboard.ENTER);
 
     //  Stop the following keys from propagating up to the browser
-    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.W, Phaser.Keyboard.A, Phaser.Keyboard.S, Phaser.Keyboard.D ]);
+    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.W, Phaser.Keyboard.A, Phaser.Keyboard.S, Phaser.Keyboard.D, Phaser.Keyboard.ENTER ]);
 
     // are controllers synced?
     indicator1 = game.add.sprite(1228, 92, 'indicator');
@@ -210,6 +202,9 @@ function create() {
     indicator4 = game.add.sprite(86, 866, 'indicator');
     indicator4.width = 45;
     indicator4.height = 24;
+
+    // TODO: make into separate scene instead
+    showTitleScreen();
 }
 
 function createPole (x, y) {
@@ -312,15 +307,28 @@ function enableCars() {
     carsCanDrive = true;
 }
 
-function playBackgroundTrack() {
+function showTitleScreen() {
+    titleImage = game.add.sprite(0, 0, 'title');
+    titleImage.width = game.world.width;
+    titleImage.height = game.world.height;
+    startText = game.add.text(game.world.centerX, 780, "Press Enter to start", { font: '38px Bungee, sans-serif', fill: '#0c88dd' });
+    startText.anchor.setTo(0.5, 0.5);
+    console.log("You're on the title screen");
+}
+
+function startGame() {
+    titleImage.kill();
+    timer.start();
+    startText.kill();
+    game.sound.context.resume(); // prevents AudioContext warning
+    game.time.events.add(Phaser.Timer.SECOND, createScoreText, this); // 1 second delay to fix webfont loading issue
+    game.time.events.add(Phaser.Timer.SECOND, createGoalText, this);
+    game.time.events.add(Phaser.Timer.SECOND, enableCars, this);
     // add music
     music = game.add.audio('background-track');
     music.volume = 0.4;
     music.loop = true;
     music.play();
-
-    // move to main menu click function when created
-    //game.sound.context.resume();
 }
 
 function gameOver() {
@@ -332,9 +340,6 @@ function gameOver() {
     gameOverText.anchor.setTo(0.5, 0.5);
     replayText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Refresh to play again', { font: '40px Bungee, sans-serif', fill: '#fff' });
     replayText.anchor.setTo(0.5, 0.5);
-    // aboutButton = game.add.button(235, 189, 'buttons', aboutClick, this, 3, 2, 3);
-    // aboutButton.width = 256;
-    // aboutButton.height = 82;
     console.log('Game over!');
 }
 
@@ -377,6 +382,12 @@ function update() {
     car2.body.setZeroRotation();
     car3.body.setZeroRotation();
     car4.body.setZeroRotation();
+
+    // TEST
+    if (onTitleScreen === true && this.enterKey.isDown) {
+        onTitleScreen = false;
+        startGame();
+    }
 
     // gamepad controls
     pad1Xstick = pad1.axis(Phaser.Gamepad.AXIS_0);
