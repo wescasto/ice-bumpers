@@ -216,6 +216,7 @@ function createPole (x, y) {
 }
 
 function accelerate (car, xStick, yStick, speed) {
+    //https://phaser.io/docs/2.3.0/Phaser.Physics.P2.Body.html#rotateLeft
     car.frame = 1;
     var angle = Math.atan2(yStick, xStick);
     car.body.rotation = angle + game.math.degToRad(90);  // correct the angle
@@ -313,7 +314,7 @@ function showTitleScreen() {
     titleImage.height = game.world.height;
     startText = game.add.text(game.world.centerX, 780, "Press Enter to start", { font: '38px Bungee, sans-serif', fill: '#0c88dd' });
     startText.anchor.setTo(0.5, 0.5);
-    console.log("You're on the title screen");
+    game.add.tween(startText).to({ alpha: 0 }, 700, Phaser.Easing.Quadratic.Out, true, 0, -1, true);
 }
 
 function startGame() {
