@@ -41,6 +41,7 @@ var pad1, pad2, pad3, pad4, cursors, pauseKey;
 var wKey, aKey, sKey, dKey, enterKey;
 var carsCanDrive = false;
 var onTitleScreen = true;
+var matchComplete = false;
 
 var angle, xValue, yValue;
 var indicator1, indicator2, indicator3, indicator4;
@@ -50,7 +51,7 @@ var timer, clockMinutes, clockSeconds;
 var gameClock = 180; // Length of match in seconds
 var redGoalCount = 0;
 var blueGoalCount = 0;
-var redGoalCountText, blueGoalCountText, startText, gameOverText;
+var redGoalCountText, blueGoalCountText, startText, gameOverText, winnerText;
 var clockStyle = { font: '36px Bungee, sans-serif', fill: '#fff', align: 'center' };
 
 var activePuck = true;
@@ -228,10 +229,11 @@ function accelerate (car, xStick, yStick, speed) {
 function scoreGoal (scoringTeam) {
     goalScoreSound.play();
     activePuck = false;
-    timer.pause();
-    game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
-    carsCanDrive = false;
-
+    if (!matchComplete) {
+        timer.pause();
+        game.time.events.add(Phaser.Timer.SECOND * 2, resetPuck, this);
+    }
+    disableCars();
     if (scoringTeam === 'red') {
         blueGoalCount += 1;
         blueGoalCountText.text = blueGoalCount;
@@ -308,11 +310,15 @@ function enableCars() {
     carsCanDrive = true;
 }
 
+function disableCars() {
+    carsCanDrive = false;
+}
+
 function showTitleScreen() {
     titleImage = game.add.sprite(0, 0, 'title');
     titleImage.width = game.world.width;
     titleImage.height = game.world.height;
-    startText = game.add.text(game.world.centerX, 780, "Press Enter to start", { font: '38px Bungee, sans-serif', fill: '#0c88dd' });
+    startText = game.add.text(game.world.centerX, 780, "Press Enter to start", { font: '38px Bungee, sans-serif', fill: '#149fff' });
     startText.anchor.setTo(0.5, 0.5);
     game.add.tween(startText).to({ alpha: 0 }, 700, Phaser.Easing.Quadratic.Out, true, 0, -1, true);
 }
@@ -334,14 +340,23 @@ function startGame() {
 
 function gameOver() {
     // TODO: this should change to a Game Over scene instead
+    disableCars();
+    matchComplete = true;
     gameOverBackground = game.add.sprite(0, 0, 'black');
+    gameOverBackground.alpha = 0.85;
     gameOverBackground.width = game.world.width * 2;
     gameOverBackground.height = game.world.height * 2;
-    gameOverText = game.add.text(game.world.centerX, game.world.centerY - 70, 'Game Over', { font: '80px Bungee, sans-serif', fill: '#fff' });
+    gameOverText = game.add.text(game.world.centerX, game.world.centerY - 40, 'Game Over', { font: '80px Bungee, sans-serif', fill: '#fff' });
     gameOverText.anchor.setTo(0.5, 0.5);
-    replayText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Refresh to play again', { font: '40px Bungee, sans-serif', fill: '#fff' });
-    replayText.anchor.setTo(0.5, 0.5);
-    console.log('Game over!');
+
+    if (redGoalCount > blueGoalCount) {
+        winnerText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Red Team Wins!', { font: '40px Bungee, sans-serif', fill: '#e03b24' });
+    } else if (blueGoalCount > redGoalCount) {
+        winnerText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Blue Team Wins!', { font: '40px Bungee, sans-serif', fill: '#149fff' });
+    } else {
+        winnerText = game.add.text(game.world.centerX, game.world.centerY + 40, 'Tie Game!', { font: '40px Bungee, sans-serif', fill: '#fff' });
+    }
+    winnerText.anchor.setTo(0.5, 0.5);
 }
 
 function update() {
@@ -398,7 +413,7 @@ function update() {
     pad3Xstick = pad3.axis(Phaser.Gamepad.AXIS_0);
     pad3Ystick = pad3.axis(Phaser.Gamepad.AXIS_1);
     pad4Xstick = pad4.axis(Phaser.Gamepad.AXIS_0);
-    pad4Ystick = pad4.axis(Phaser.Gamepad.AXIS_1);    
+    pad4Ystick = pad4.axis(Phaser.Gamepad.AXIS_1);
 
     if (carsCanDrive) {
         // player 1 (arrow keys)
